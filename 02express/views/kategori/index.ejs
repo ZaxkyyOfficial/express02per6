@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+
+<div class="container-xl mt-5">
+    
+    <% if (messages.success) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%- messages.success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title mb-3">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h2>Manage <b>Kategori</b></h2>
+                    </div>
+                    <div class="col-sm-6 text-end d-flex justify-content-end gap-2">
+                        <a href="/kategori/create" class="btn btn-success"><i class="fas fa-plus-circle"></i> <span>Add New Kategori</span></a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Deskripsi</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (kategori && kategori.length > 0) { %>
+                        <% kategori.forEach(function(item, index) { %>
+                        <tr>
+                            <td><%= ((currentPage - 1) * 10) + index + 1 %></td> 
+                            <td><%= item.nama %></td>
+                            <td><%= item.deskripsi %></td>
+                            <td>
+                                <a href="/kategori/edit/<%= item.no %>" class="edit text-warning me-2" title="Edit"><i class="fas fa-pen"></i></a>
+                                <a href="/kategori/delete/<%= item.no %>" class="delete text-danger" title="Delete"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="4" class="text-center">Belum ada data kategori.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+
+            <div class="clearfix d-flex justify-content-between align-items-center">
+                <div class="hint-text">
+                    Showing <b><%= kategori.length %></b> of <b><%= totalData %></b> entries (Page <b><%= currentPage %></b> of <b><%= totalPages %></b>)
+                </div>
+                <ul class="pagination mb-0">
+                    <% if (currentPage > 1) { %>
+                        <li class="page-item">
+                            <a href="/kategori?page=<%= currentPage - 1 %>" class="page-link">Previous</a>
+                        </li>
+                    <% } else { %>
+                        <li class="page-item disabled">
+                            <a href="#" class="page-link">Previous</a>
+                        </li>
+                    <% } %>
+
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                        <% if (i === currentPage) { %>
+                            <li class="page-item active">
+                                <a href="#" class="page-link"><%= i %></a>
+                            </li>
+                        <% } else { %>
+                            <li class="page-item">
+                                <a href="/kategori?page=<%= i %>" class="page-link"><%= i %></a>
+                            </li>
+                        <% } %>
+                    <% } %>
+
+                    <% if (currentPage < totalPages) { %>
+                        <li class="page-item">
+                            <a href="/kategori?page=<%= currentPage + 1 %>" class="page-link">Next</a>
+                        </li>
+                    <% } else { %>
+                        <li class="page-item disabled">
+                            <a href="#" class="page-link">Next</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

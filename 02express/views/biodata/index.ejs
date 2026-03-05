@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Biodata</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <% if (messages.success) { %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%- messages.success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% } %>
+
+    <div class="card">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Data Biodata</h4>
+            <a href="/biodata/create" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Tambah Biodata</a>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th width="5%">No</th>
+                        <th width="15%">Foto</th>
+                        <th>Nama</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Alamat</th>
+                        <th width="15%">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (biodata && biodata.length > 0) { %>
+                        <% biodata.forEach(function(item, index) { %>
+                        <tr>
+                            <td><%= index + 1 %></td>
+                            <td>
+                                <% if(item.foto_profil) { %>
+                                    <img src="/images/uploads/<%= item.foto_profil %>" alt="Foto Profil" class="img-thumbnail" width="80">
+                                <% } else { %>
+                                    <span class="text-muted">Tidak ada foto</span>
+                                <% } %>
+                            </td>
+                            <td><%= item.nama %></td>
+                            <td><%= item.jenis_kelamin %></td>
+                            <td><%= item.alamat %></td>
+                            <td>
+                                <a href="/biodata/edit/<%= item.id_biodata %>" class="btn btn-sm btn-warning"><i class="fas fa-pen"></i></a>
+                                <a href="/biodata/delete/<%= item.id_biodata %>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?');"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6" class="text-center">Belum ada data biodata.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
